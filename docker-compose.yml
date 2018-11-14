@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=mailtrain
+      - MYSQL_DATABASE=mailtrain
+      - MYSQL_USER=mailtrain
+      - MYSQL_PASSWORD=mailtrain
+    volumes: ["mysql:/var/lib/mysql:nocopy"]
+
+  redis:
+    image: redis:3.0
+    volumes: ["redis:/data:nocopy"]
+
+  mailtrain:
+    image: ston3o/mailtrain:1.24.1
+    ports: ["3000:3000"]
+    volumes:
+      - data:/app/public/grapejs/uploads:nocopy
+      - data:/app/public/mosaico/uploads:nocopy
+      - reports:/app/protected/reports:nocopy
+
+volumes:
+  mysql:
+  redis:
+  data:
+  reports:
